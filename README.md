@@ -18,7 +18,10 @@ Streamlit: Biblioteca para criação de interfaces web interativas.
 Docker: Plataforma de containerização para criar, implantar e rodar aplicações em containers.
 Poetry: Ferramenta para gerenciamento de dependências e empacotamento no Python.
 
-```
+
+## Diagrama da Estrutura do Projeto
+
+```mermaid
 graph TD
     A[Read_Books] --> B[Backend]
     B --> C[main.py]
@@ -37,4 +40,4 @@ graph TD
     A --> P[poetry.lock]
     A --> Q[.python-version]
     A --> R[README.md]
-```
+````
