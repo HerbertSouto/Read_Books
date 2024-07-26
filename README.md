@@ -1,12 +1,10 @@
-# Read_Books
+# Projeto CRUD com FastAPI, SQLAlchemy, Pydantic, PostgreSQL, Streamlit e Docker
 
-## Projeto CRUD com FastAPI, SQLAlchemy, Pydantic, PostgreSQL, Streamlit e Docker
-
-# Visão Geral
+## Visão Geral
 
 Este projeto tem como objetivo criar uma aplicação CRUD utilizando FastAPI para o backend, SQLAlchemy para a interação com o banco de dados PostgreSQL, Pydantic para validação de dados, Streamlit para a interface web e Docker para containerização. FastAPI é um framework moderno e de alta performance para construção de APIs, enquanto Streamlit facilita a criação de dashboards e aplicações web interativas. Docker garante que o ambiente de desenvolvimento seja consistente e facilita a implantação em diferentes ambientes.
 
-# Ferramentas e Tecnologias
+## Ferramentas e Tecnologias
 
 - **Python**: Linguagem de programação principal.
 - **FastAPI**: Framework moderno e de alta performance para construção de APIs.
