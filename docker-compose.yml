@@ -1,4 +1,3 @@
-version: '3.9'
 services:
   postgres:
     image: postgres:latest
@@ -12,7 +11,7 @@ services:
       - mynetwork
 
   backend:
-    build: 
+    build:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
@@ -23,17 +22,6 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
-    networks:
-      - mynetwork
-
-  frontend:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ./frontend:/app
-    ports:
-      - "8501:8501"
     networks:
       - mynetwork
 
