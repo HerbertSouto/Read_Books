@@ -29,8 +29,8 @@ with st.expander("Adicionar um livro"):
         category = st.text_input("Categoria")
         publisher = st.text_input("Editora")
         number_of_pages = st.number_input("Número de páginas")
-        start_reading = st.text_input("Início da leitura")
-        end_reading = st.text_input("Fim da leitura")
+        start_reading = st.date_input("Início da leitura", args=None, kwargs=None, format="YYYY-MM-DD")
+        end_reading = st.date_input("Fim da leitura", args=None, kwargs=None, format="YYYY-MM-DD")
         submit_button = st.form_submit_button("Adicionar livro")
 
         if submit_button:
@@ -41,8 +41,8 @@ with st.expander("Adicionar um livro"):
                     "category": category,
                     "publisher": publisher,
                     "number_of_pages": number_of_pages,
-                    "start_reading": start_reading,
-                    "end_reading": end_reading
+                    "start_reading": start_reading.isoformat(),
+                    "end_reading": end_reading.isoformat()
                 }
             )
             show_response_message(response)
@@ -121,8 +121,8 @@ with st.expander("Atualizar livro"):
         new_category = st.text_area("Nova categoria do livro")
         new_publisher = st.text_area("Nova editora do livro")
         new_number_of_pages = st.number_input("Nova quantidade de páginas")
-        new_start_reading = st.text_input("Nova data de início de leitura")
-        new_end_reading = st.text_input("Nova data de fim de leitura")
+        new_start_reading = st.date_input("Nova data de início de leitura", args=None, kwargs=None, format="YYYY-MM-DD")
+        new_end_reading = st.date_input("Nova data de fim de leitura", args=None, kwargs=None, format="YYYY-MM-DD")
 
         update_button = st.form_submit_button("Atualizar livro")
 
@@ -137,9 +137,9 @@ with st.expander("Atualizar livro"):
             if new_number_of_pages:
                 update_data["number_of_pages"] = new_number_of_pages
             if new_start_reading:
-                update_data["start_reading"] = new_start_reading
+                update_data["start_reading"] = new_start_reading.isoformat()
             if new_end_reading:
-                update_data["end_reading"] = new_end_reading  
+                update_data["end_reading"] = new_end_reading.isoformat()  
 
             if update_data:
                 response = requests.put(
