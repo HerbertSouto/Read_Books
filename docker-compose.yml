@@ -4,9 +4,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${USER_NAME}
+      POSTGRES_PASSWORD: ${PASSWORD}
+      POSTGRES_HOST: ${HOST_NAME}
     networks:
       - mynetwork
 
@@ -17,9 +18,9 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      DATABASE_URL: postgresql://user:password@postgres/mydatabase
+      DATABASE_URL: postgresql://${USER_NAME}:${PASSWORD}@${HOST_NAME}/${DATABASE_NAME}
     ports:
-      - "8000:8000"
+      - "5432:5432"
     depends_on:
       - postgres
     networks:
