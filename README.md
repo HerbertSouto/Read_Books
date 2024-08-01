@@ -1,7 +1,8 @@
 # Projeto CRUD com FastAPI, SQLAlchemy, Pydantic, PostgreSQL, Streamlit e Docker
 
-![Descrição do GIF](gif.gif)
-
+<div align="center">
+  <img src="gif.gif" alt="CRUD" width="600" />
+</div>
 
 ## Visão Geral
 
