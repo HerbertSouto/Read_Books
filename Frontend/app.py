@@ -117,9 +117,9 @@ with st.expander("Buscar livro"):
 with st.expander("Atualizar livro"):
     with st.form("update_book"):
         update_id = st.number_input("ID do livro", min_value=1, format="%d")
-        new_name = st.text_input("Novo nome do livro")
-        new_category = st.text_area("Nova categoria do livro")
-        new_publisher = st.text_area("Nova editora do livro")
+        new_name = st.text_input("Novo nome do livro", "")
+        new_category = st.text_area("Nova categoria do livro", "")
+        new_publisher = st.text_area("Nova editora do livro", "")
         new_number_of_pages = st.number_input("Nova quantidade de páginas", min_value=1, step=1)
         new_start_reading = st.date_input("Nova data de início de leitura", format="YYYY-MM-DD")
         new_end_reading = st.date_input("Nova data de fim de leitura", format="YYYY-MM-DD")
@@ -127,32 +127,27 @@ with st.expander("Atualizar livro"):
         update_button = st.form_submit_button("Atualizar livro")
 
         if update_button:
-            if not new_name or not new_category or not new_publisher:
-                st.error("Nome do livro, categoria e editora são campos obrigatórios.")
-            elif new_start_reading > new_end_reading:
-                st.error("A data de início não pode ser posterior à data de fim.")
-            else:
-                update_data = {}
-                if new_name:
-                    update_data["name"] = new_name
-                if new_category:
-                    update_data["category"] = new_category
-                if new_publisher:
-                    update_data["publisher"] = new_publisher
-                if new_number_of_pages:
-                    update_data["number_of_pages"] = new_number_of_pages
-                if new_start_reading:
-                    update_data["start_reading"] = new_start_reading.isoformat()
-                if new_end_reading:
-                    update_data["end_reading"] = new_end_reading.isoformat()  
+            update_data = {}
+            if new_name:
+                update_data["name"] = new_name
+            if new_category:
+                update_data["category"] = new_category
+            if new_publisher:
+                update_data["publisher"] = new_publisher
+            if new_number_of_pages:
+                update_data["number_of_pages"] = new_number_of_pages
+            if new_start_reading:
+                update_data["start_reading"] = new_start_reading.isoformat()
+            if new_end_reading:
+                update_data["end_reading"] = new_end_reading.isoformat()  
 
-                if update_data:
-                    response = requests.put(
-                        f"{BACKEND_URL}/books/{update_id}", json=update_data
-                    )
-                    show_response_message(response)
-                else:
-                    st.error("Nenhuma informação fornecida para atualização")
+            if update_data:
+                response = requests.put(
+                    f"{BACKEND_URL}/books/{update_id}", json=update_data
+                )
+                show_response_message(response)
+            else:
+                st.error("Nenhuma informação fornecida para atualização")
 
 # Deletar Livro
 with st.expander("Deletar livro"):
