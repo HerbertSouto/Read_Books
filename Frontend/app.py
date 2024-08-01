@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 
 st.title("Gerenciamento de Livros")
+st.set_page_config(layout="wide")
 
 # Função auxiliar para exibir mensagens de erro detalhadas
 def show_response_message(response):
