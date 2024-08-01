@@ -1,6 +1,6 @@
 # Projeto CRUD com FastAPI, SQLAlchemy, Pydantic, PostgreSQL, Streamlit e Docker
 
-![Descrição do GIF](Read_Books/gif.gif)
+![Descrição do GIF](gif.gif)
 
 
 ## Visão Geral
