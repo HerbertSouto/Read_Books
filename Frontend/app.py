@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 
-st.image("logo.png")
+
 st.set_page_config(layout="wide")
 st.title("Gerenciamento de Livros")
 
