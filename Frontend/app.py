@@ -2,8 +2,6 @@ import streamlit as st
 import requests
 import pandas as pd
 
-st.set_page_config(layout="wide")
-st.image("logo.png", width=100)
 st.title("Gerenciamento de Livros")
 
 # Função auxiliar para exibir mensagens de erro detalhadas
