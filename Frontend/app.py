@@ -115,39 +115,46 @@ with st.expander("Buscar livro"):
 
 # Atualizar Livro
 with st.expander("Atualizar livro"):
-    with st.form("update_book"):
-        update_id = st.number_input("ID do livro", min_value=1, format="%d")
-        new_name = st.text_input("Novo nome do livro", "")
-        new_category = st.text_area("Nova categoria do livro", "")
-        new_publisher = st.text_area("Nova editora do livro", "")
-        new_number_of_pages = st.number_input("Nova quantidade de páginas", min_value=1, step=1)
-        new_start_reading = st.date_input("Nova data de início de leitura", format="YYYY-MM-DD")
-        new_end_reading = st.date_input("Nova data de fim de leitura", format="YYYY-MM-DD")
+    update_id = st.number_input("ID do livro", min_value=1, format="%d")
+    if st.button("Carregar livro para atualização"):
+        response = requests.get(f"{BACKEND_URL}/books/{update_id}")
+        if response.status_code == 200:
+            book = response.json()
 
-        update_button = st.form_submit_button("Atualizar livro")
+            with st.form("update_book"):
+                new_name = st.text_input("Novo nome do livro", value=book.get("name", ""))
+                new_category = st.text_area("Nova categoria do livro", value=book.get("category", ""))
+                new_publisher = st.text_area("Nova editora do livro", value=book.get("publisher", ""))
+                new_number_of_pages = st.number_input("Nova quantidade de páginas", value=book.get("number_of_pages", 1), min_value=1, step=1)
+                new_start_reading = st.date_input("Nova data de início de leitura", value=pd.to_datetime(book.get("start_reading")).date() if book.get("start_reading") else None, format="YYYY-MM-DD")
+                new_end_reading = st.date_input("Nova data de fim de leitura", value=pd.to_datetime(book.get("end_reading")).date() if book.get("end_reading") else None, format="YYYY-MM-DD")
 
-        if update_button:
-            update_data = {}
-            if new_name:
-                update_data["name"] = new_name
-            if new_category:
-                update_data["category"] = new_category
-            if new_publisher:
-                update_data["publisher"] = new_publisher
-            if new_number_of_pages:
-                update_data["number_of_pages"] = new_number_of_pages
-            if new_start_reading:
-                update_data["start_reading"] = new_start_reading.isoformat()
-            if new_end_reading:
-                update_data["end_reading"] = new_end_reading.isoformat()  
+                update_button = st.form_submit_button("Atualizar livro")
 
-            if update_data:
-                response = requests.put(
-                    f"{BACKEND_URL}/books/{update_id}", json=update_data
-                )
-                show_response_message(response)
-            else:
-                st.error("Nenhuma informação fornecida para atualização")
+                if update_button:
+                    update_data = {}
+                    if new_name and new_name != book.get("name"):
+                        update_data["name"] = new_name
+                    if new_category and new_category != book.get("category"):
+                        update_data["category"] = new_category
+                    if new_publisher and new_publisher != book.get("publisher"):
+                        update_data["publisher"] = new_publisher
+                    if new_number_of_pages and new_number_of_pages != book.get("number_of_pages"):
+                        update_data["number_of_pages"] = new_number_of_pages
+                    if new_start_reading and new_start_reading.isoformat() != book.get("start_reading"):
+                        update_data["start_reading"] = new_start_reading.isoformat()
+                    if new_end_reading and new_end_reading.isoformat() != book.get("end_reading"):
+                        update_data["end_reading"] = new_end_reading.isoformat()  
+
+                    if update_data:
+                        response = requests.put(
+                            f"{BACKEND_URL}/books/{update_id}", json=update_data
+                        )
+                        show_response_message(response)
+                    else:
+                        st.error("Nenhuma informação fornecida para atualização")
+        else:
+            st.error("Erro ao carregar os dados do livro para atualização")
 
 # Deletar Livro
 with st.expander("Deletar livro"):
