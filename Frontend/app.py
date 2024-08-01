@@ -136,9 +136,9 @@ with st.expander("Atualizar livro"):
                 update_data["publisher"] = new_publisher
             if new_number_of_pages:
                 update_data["number_of_pages"] = new_number_of_pages
-            if new_start_reading:
+            if new_start_reading != pd.to_datetime('today').date():  # Verifica se a data não é a de hoje
                 update_data["start_reading"] = new_start_reading.isoformat()
-            if new_end_reading:
+            if new_end_reading != pd.to_datetime('today').date():  # Verifica se a data não é a de hoje
                 update_data["end_reading"] = new_end_reading.isoformat()  
 
             if update_data:
@@ -148,6 +148,7 @@ with st.expander("Atualizar livro"):
                 show_response_message(response)
             else:
                 st.error("Nenhuma informação fornecida para atualização")
+
 
 
 # Deletar Livro
