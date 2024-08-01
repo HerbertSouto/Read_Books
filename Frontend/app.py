@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 
 st.set_page_config(layout="wide")
+st.image("logo.png")
 st.title("Gerenciamento de Livros")
 
 # Definir a URL pública do backend
