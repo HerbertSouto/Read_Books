@@ -27,12 +27,12 @@ def show_response_message(response):
 # Adicionar Livro
 with st.expander("Adicionar um livro"):
     with st.form("new_book"):
-        name = st.text_input("Nome do livro")
-        category = st.text_input("Categoria")
-        publisher = st.text_input("Editora")
-        number_of_pages = st.number_input("Número de páginas", min_value=1, step=1)
-        start_reading = st.date_input("Início da leitura", format="YYYY-MM-DD")
-        end_reading = st.date_input("Fim da leitura", format="YYYY-MM-DD")
+        name = st.text_input("Nome do livro", key="name_input")
+        category = st.text_input("Categoria", key="category_input")
+        publisher = st.text_input("Editora", key="publisher_input")
+        number_of_pages = st.number_input("Número de páginas", min_value=1, step=1, key="pages_input")
+        start_reading = st.date_input("Início da leitura", format="YYYY-MM-DD", key="start_reading_input")
+        end_reading = st.date_input("Fim da leitura", format="YYYY-MM-DD", key="end_reading_input")
         submit_button = st.form_submit_button("Adicionar livro")
 
         if submit_button:
@@ -85,7 +85,7 @@ with st.expander("Visualizar livros"):
 
 # Obter Detalhes de um Livro
 with st.expander("Buscar livro"):
-    get_id = st.number_input("ID do livro", min_value=1, format="%d")
+    get_id = st.number_input("ID do livro", min_value=1, format="%d", key="search_id_input")
     if st.button("Buscar"):
         response = requests.get(f"{BACKEND_URL}/books/{get_id}")
         if response.status_code == 200:
@@ -115,19 +115,19 @@ with st.expander("Buscar livro"):
 
 # Atualizar Livro
 with st.expander("Atualizar livro"):
-    update_id = st.number_input("ID do livro", min_value=1, format="%d")
+    update_id = st.number_input("ID do livro", min_value=1, format="%d", key="update_id_input")
     if st.button("Carregar livro para atualização"):
         response = requests.get(f"{BACKEND_URL}/books/{update_id}")
         if response.status_code == 200:
             book = response.json()
 
             with st.form("update_book"):
-                new_name = st.text_input("Novo nome do livro", value=book.get("name", ""))
-                new_category = st.text_area("Nova categoria do livro", value=book.get("category", ""))
-                new_publisher = st.text_area("Nova editora do livro", value=book.get("publisher", ""))
-                new_number_of_pages = st.number_input("Nova quantidade de páginas", value=book.get("number_of_pages", 1), min_value=1, step=1)
-                new_start_reading = st.date_input("Nova data de início de leitura", value=pd.to_datetime(book.get("start_reading")).date() if book.get("start_reading") else None, format="YYYY-MM-DD")
-                new_end_reading = st.date_input("Nova data de fim de leitura", value=pd.to_datetime(book.get("end_reading")).date() if book.get("end_reading") else None, format="YYYY-MM-DD")
+                new_name = st.text_input("Novo nome do livro", value=book.get("name", ""), key="update_name_input")
+                new_category = st.text_area("Nova categoria do livro", value=book.get("category", ""), key="update_category_input")
+                new_publisher = st.text_area("Nova editora do livro", value=book.get("publisher", ""), key="update_publisher_input")
+                new_number_of_pages = st.number_input("Nova quantidade de páginas", value=book.get("number_of_pages", 1), min_value=1, step=1, key="update_pages_input")
+                new_start_reading = st.date_input("Nova data de início de leitura", value=pd.to_datetime(book.get("start_reading")).date() if book.get("start_reading") else None, format="YYYY-MM-DD", key="update_start_reading_input")
+                new_end_reading = st.date_input("Nova data de fim de leitura", value=pd.to_datetime(book.get("end_reading")).date() if book.get("end_reading") else None, format="YYYY-MM-DD", key="update_end_reading_input")
 
                 update_button = st.form_submit_button("Atualizar livro")
 
@@ -158,7 +158,7 @@ with st.expander("Atualizar livro"):
 
 # Deletar Livro
 with st.expander("Deletar livro"):
-    delete_id = st.number_input("ID do livro para deletar", min_value=1, format="%d")
+    delete_id = st.number_input("ID do livro para deletar", min_value=1, format="%d", key="delete_id_input")
     if st.button("Deletar livro"):
         response = requests.delete(f"{BACKEND_URL}/books/{delete_id}")
         show_response_message(response)
