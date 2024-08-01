@@ -106,13 +106,6 @@ with st.expander("Buscar livro"):
         else:
             show_response_message(response)
 
-# Deletar Livro
-with st.expander("Deletar livro"):
-    delete_id = st.number_input("ID do livro para deletar", min_value=1, format="%d")
-    if st.button("Deletar livro"):
-        response = requests.delete(f"http://backend:8000/books/{delete_id}")
-        show_response_message(response)
-
 # Atualizar Livro
 with st.expander("Atualizar livro"):
     with st.form("update_book"):
@@ -148,3 +141,10 @@ with st.expander("Atualizar livro"):
                 show_response_message(response)
             else:
                 st.error("Nenhuma informação fornecida para atualização")
+
+# Deletar Livro
+with st.expander("Deletar livro"):
+    delete_id = st.number_input("ID do livro para deletar", min_value=1, format="%d")
+    if st.button("Deletar livro"):
+        response = requests.delete(f"http://backend:8000/books/{delete_id}")
+        show_response_message(response)                
