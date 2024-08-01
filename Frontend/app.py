@@ -2,10 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 
-
 st.set_page_config(layout="wide")
 st.title("Gerenciamento de Livros")
-
 
 # Definir a URL pública do backend
 BACKEND_URL = "https://read-books.onrender.com"
@@ -32,24 +30,29 @@ with st.expander("Adicionar um livro"):
         name = st.text_input("Nome do livro")
         category = st.text_input("Categoria")
         publisher = st.text_input("Editora")
-        number_of_pages = st.number_input("Número de páginas")
+        number_of_pages = st.number_input("Número de páginas", min_value=1, step=1)
         start_reading = st.date_input("Início da leitura", format="YYYY-MM-DD")
         end_reading = st.date_input("Fim da leitura", format="YYYY-MM-DD")
         submit_button = st.form_submit_button("Adicionar livro")
 
         if submit_button:
-            response = requests.post(
-                f"{BACKEND_URL}/books/",
-                json={
-                    "name": name,
-                    "category": category,
-                    "publisher": publisher,
-                    "number_of_pages": number_of_pages,
-                    "start_reading": start_reading.isoformat(),
-                    "end_reading": end_reading.isoformat()
-                }
-            )
-            show_response_message(response)
+            if not name or not category or not publisher:
+                st.error("Nome do livro, categoria e editora são campos obrigatórios.")
+            elif start_reading > end_reading:
+                st.error("A data de início não pode ser posterior à data de fim.")
+            else:
+                response = requests.post(
+                    f"{BACKEND_URL}/books/",
+                    json={
+                        "name": name,
+                        "category": category,
+                        "publisher": publisher,
+                        "number_of_pages": number_of_pages,
+                        "start_reading": start_reading.isoformat(),
+                        "end_reading": end_reading.isoformat()
+                    }
+                )
+                show_response_message(response)
 
 # Visualizar Livros
 with st.expander("Visualizar livros"):
@@ -117,34 +120,39 @@ with st.expander("Atualizar livro"):
         new_name = st.text_input("Novo nome do livro")
         new_category = st.text_area("Nova categoria do livro")
         new_publisher = st.text_area("Nova editora do livro")
-        new_number_of_pages = st.number_input("Nova quantidade de páginas")
+        new_number_of_pages = st.number_input("Nova quantidade de páginas", min_value=1, step=1)
         new_start_reading = st.date_input("Nova data de início de leitura", format="YYYY-MM-DD")
         new_end_reading = st.date_input("Nova data de fim de leitura", format="YYYY-MM-DD")
 
         update_button = st.form_submit_button("Atualizar livro")
 
         if update_button:
-            update_data = {}
-            if new_name:
-                update_data["name"] = new_name
-            if new_category:
-                update_data["category"] = new_category
-            if new_publisher:
-                update_data["publisher"] = new_publisher
-            if new_number_of_pages:
-                update_data["number_of_pages"] = new_number_of_pages
-            if new_start_reading:
-                update_data["start_reading"] = new_start_reading.isoformat()
-            if new_end_reading:
-                update_data["end_reading"] = new_end_reading.isoformat()  
-
-            if update_data:
-                response = requests.put(
-                    f"{BACKEND_URL}/books/{update_id}", json=update_data
-                )
-                show_response_message(response)
+            if not new_name or not new_category or not new_publisher:
+                st.error("Nome do livro, categoria e editora são campos obrigatórios.")
+            elif new_start_reading > new_end_reading:
+                st.error("A data de início não pode ser posterior à data de fim.")
             else:
-                st.error("Nenhuma informação fornecida para atualização")
+                update_data = {}
+                if new_name:
+                    update_data["name"] = new_name
+                if new_category:
+                    update_data["category"] = new_category
+                if new_publisher:
+                    update_data["publisher"] = new_publisher
+                if new_number_of_pages:
+                    update_data["number_of_pages"] = new_number_of_pages
+                if new_start_reading:
+                    update_data["start_reading"] = new_start_reading.isoformat()
+                if new_end_reading:
+                    update_data["end_reading"] = new_end_reading.isoformat()  
+
+                if update_data:
+                    response = requests.put(
+                        f"{BACKEND_URL}/books/{update_id}", json=update_data
+                    )
+                    show_response_message(response)
+                else:
+                    st.error("Nenhuma informação fornecida para atualização")
 
 # Deletar Livro
 with st.expander("Deletar livro"):
