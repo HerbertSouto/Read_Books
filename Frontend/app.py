@@ -144,7 +144,7 @@ with st.expander("Atualizar livro"):
                     if new_start_reading and new_start_reading.isoformat() != book.get("start_reading"):
                         update_data["start_reading"] = new_start_reading.isoformat()
                     if new_end_reading and new_end_reading.isoformat() != book.get("end_reading"):
-                        update_data["end_reading"] = new_end_reading.isoformat()  
+                        update_data["end_reading"] = new_end_reading.isoformat()
 
                     if update_data:
                         response = requests.put(
