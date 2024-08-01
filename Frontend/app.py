@@ -5,6 +5,8 @@ import pandas as pd
 st.set_page_config(layout="wide")
 st.title("Gerenciamento de Livros")
 
+# Definir a URL pública do backend
+BACKEND_URL = "https://read-books.onrender.com"
 
 # Função auxiliar para exibir mensagens de erro detalhadas
 def show_response_message(response):
@@ -29,13 +31,13 @@ with st.expander("Adicionar um livro"):
         category = st.text_input("Categoria")
         publisher = st.text_input("Editora")
         number_of_pages = st.number_input("Número de páginas")
-        start_reading = st.date_input("Início da leitura", args=None, kwargs=None, format="YYYY-MM-DD")
-        end_reading = st.date_input("Fim da leitura", args=None, kwargs=None, format="YYYY-MM-DD")
+        start_reading = st.date_input("Início da leitura", format="YYYY-MM-DD")
+        end_reading = st.date_input("Fim da leitura", format="YYYY-MM-DD")
         submit_button = st.form_submit_button("Adicionar livro")
 
         if submit_button:
             response = requests.post(
-                "http://backend:8000/books/",
+                f"{BACKEND_URL}/books/",
                 json={
                     "name": name,
                     "category": category,
@@ -50,7 +52,7 @@ with st.expander("Adicionar um livro"):
 # Visualizar Livros
 with st.expander("Visualizar livros"):
     if st.button("Exibir todos livros"):
-        response = requests.get("http://backend:8000/books/")
+        response = requests.get(f"{BACKEND_URL}/books/")
         if response.status_code == 200:
             books = response.json()
             df = pd.DataFrame(books)
@@ -80,7 +82,7 @@ with st.expander("Visualizar livros"):
 with st.expander("Buscar livro"):
     get_id = st.number_input("ID do livro", min_value=1, format="%d")
     if st.button("Buscar"):
-        response = requests.get(f"http://backend:8000/books/{get_id}")
+        response = requests.get(f"{BACKEND_URL}/books/{get_id}")
         if response.status_code == 200:
             book = response.json()
             df = pd.DataFrame([book])
@@ -114,8 +116,8 @@ with st.expander("Atualizar livro"):
         new_category = st.text_area("Nova categoria do livro")
         new_publisher = st.text_area("Nova editora do livro")
         new_number_of_pages = st.number_input("Nova quantidade de páginas")
-        new_start_reading = st.date_input("Nova data de início de leitura", args=None, kwargs=None, format="YYYY-MM-DD")
-        new_end_reading = st.date_input("Nova data de fim de leitura", args=None, kwargs=None, format="YYYY-MM-DD")
+        new_start_reading = st.date_input("Nova data de início de leitura", format="YYYY-MM-DD")
+        new_end_reading = st.date_input("Nova data de fim de leitura", format="YYYY-MM-DD")
 
         update_button = st.form_submit_button("Atualizar livro")
 
@@ -136,7 +138,7 @@ with st.expander("Atualizar livro"):
 
             if update_data:
                 response = requests.put(
-                    f"http://backend:8000/books/{update_id}", json=update_data
+                    f"{BACKEND_URL}/books/{update_id}", json=update_data
                 )
                 show_response_message(response)
             else:
@@ -146,5 +148,5 @@ with st.expander("Atualizar livro"):
 with st.expander("Deletar livro"):
     delete_id = st.number_input("ID do livro para deletar", min_value=1, format="%d")
     if st.button("Deletar livro"):
-        response = requests.delete(f"http://backend:8000/books/{delete_id}")
-        show_response_message(response)                
+        response = requests.delete(f"{BACKEND_URL}/books/{delete_id}")
+        show_response_message(response)
