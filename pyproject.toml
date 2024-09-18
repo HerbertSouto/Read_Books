@@ -13,6 +13,7 @@ psycopg2-binary = "^2.9.9"
 psycopg2 = "^2.9.9"
 streamlit = "^1.37.0"
 python-dotenv = "^1.0.1"
+pydantic = "^2.9.2"
 
 
 [build-system]
