@@ -24,13 +24,9 @@ Entre no diretório do projeto:
 ```bash
 cd Read_Books
 ```
-### 3. Instalar as dependências com Poetry
+### 3. Defina suas variáveis de ambiente
 
-Se você ainda não tem o Poetry instalado, siga as instruções na documentação oficial. Após a instalação, execute o seguinte comando para instalar as dependências do projeto:
-
-```bash
-poetry install
-```
+Entre na pasta Backend e edite o arquivo "example.env" com suas credenciais e renomeie para ".env"
 
 ### 4. Subir o ambiente com Docker Compose
 
